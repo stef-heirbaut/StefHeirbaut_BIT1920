@@ -1,0 +1,111 @@
+$ mysql 
+> create database bioinf_exam;
+> exit 
+$ mysql bioinf_exam < bioinf_examen.sql
+$ mysql
+> show databases;
+> use bioinf_exam;
+> show tables;
+results: tables: exon, transcript, gene, exon transcript
+
+-----------------------------------------------------------------------------------------------
+Question 4: Give the name and length of the third largest gene in the genome.
+
+name --> table gene: gene_name
+length --> table gene: seq_region_end - seq_region_start
+
+query: 
+select gene_name, (seq_region_end - seq_region_start) AS length from gene order by length desc limit 1;
+
+result: 
++-----------+---------+
+| gene_name | length  |
++-----------+---------+
+| TMPRSS3   | 5379013 |
++-----------+---------+
+1 row in set (0.03 sec)
+
+-------------------------------------------------------------------------------------------------
+Question 5: Give the name of the gene with the most exons? Give the number of exons of this gene?
+
+name --> table gene: gene_name
+number of exons --> count(e.exon_id)
+
+query: 
+select gene_name, count(et.exon_id) as number_of_exons from gene g join transcript t on g.gene_id = t.gene_id JOIN exon_transcript et on t.transcript_id = et.transcript_id  group by g.gene_name order by count(number_of_exons) desc limit 1;
+
+result: 
++-----------+-----------------+
+| gene_name | number_of_exons |
++-----------+-----------------+
+| COL11A2   |            3598 |
++-----------+-----------------+
+1 row in set (2.37 sec)
+
+-------------------------------------------------------------------------------------------------------
+Guestion 6: Give the name of the chromosome with the most genes associated with breast cancer. Give the number of transcripts of this chromosome? (2 queries)
+
+2 queries:
+query 1: Give the name of the chromosome with the most genes associated with breast cancer.
+query 2: Give the number of transcripts of this chromosome?
+
+query 1: 
+name: chromosome table --> gene
+count(gene_id) --> table gene
+description: must be associated with breast cancer --> table gene 
+
+query1: 
+select chromosome, count(gene_id) as genes from gene where description like "breast cancer%" group by chromosome order by genes desc limit 1;
+
+result
++------------+-------+
+| chromosome | genes |
++------------+-------+
+| 16         |     2 |
++------------+-------+
+1 row in set (0.03 sec)
+
+query 2:
+select chromosome, count(transcript_id) as number_of_transcripts from gene g join transcript t on g.gene_id = t.gene_id  where chromosome = "16" group by chromosome ;
+
+result: 
++------------+-----------------------+
+| chromosome | number_of_transcripts |
++------------+-----------------------+
+| 16         |                  3636 |
++------------+-----------------------+
+1 row in set (0.02 sec)
+
+
+--------------------------------------------------------------------------------------------------------
+Question 7: Give the number of rows from the exon table and do the same for the exon_transcript table (2 queries). Explain why there is a difference in number of rows.
+ 
+query: select count(*) as rows_exon from exon;
+results: 
++-----------+
+| rows_exon |
++-----------+
+|    642590 |
++-----------+
+1 row in set (0.05 sec)
+
+
+rows exon_transcript
+query: select count(*) as rows_exon_transcript from exon_transcript; 
+result: 
++----------------------+
+| rows_exon_transcript |
++----------------------+
+|              1178393 |
++----------------------+
+1 row in set (0.12 sec)
+
+exon: 642590 rows, exon_transcripts: 1178393 rows 
+--> big difference
+why --> because the table exon contains only value about each unique exon_id, the exon_id is an unique value, so each exon_id can only be once in the table. 
+in the table exon_transcript is the exon_id and transcript_id given. these values are not unique because a transcript can have multiple exons and an exon can be on multiple transcripts. because of this possibility there will be more rows in the exon_transcript table. 
+
+
+
+
+
