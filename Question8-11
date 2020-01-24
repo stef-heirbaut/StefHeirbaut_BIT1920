@@ -1,0 +1,20 @@
+Questions mongoDB
+
+
+Question 8
+db.getCollection('bioinf_mongo_examen').find({method_of_admission:'TABLET;BUCCAL, SUBLINGUAL'}).count()
+
+1
+
+
+
+
+Question 9:
+
+db.getCollection('bioinf_mongo_examen').find({percentage_of_side_effects:{$gt:8}}).count()
+399
+
+
+
+Question 10:
+
