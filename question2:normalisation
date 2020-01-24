@@ -1,0 +1,79 @@
+A research lab keeps track of all projects PhD students and lab technicians work on. This data consists of
+
+Personnel number
+Name
+Date of birth
+Lab code
+Lab name
+Research code
+Research description
+Research supervisor
+Normalise this data up to 3NF, taking in to account these constraints:
+
+Each personnel number is unique
+Each lab has a single lab code
+Each research project has a single code and supervisor
+Each member of the personnel may work on one or more research projects
+Personnel names need not necessarily be unique
+Research code, description and supervisor are repeating fields
+Save the results of each normalisation step, together with a description of the steps you took in a document with a clear name. Add this document to your git-repository and choose a suiting commit-message.
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+UNF: Lab(PersonnelNo, Name, Date-of-birth, Lab code, Lab name, Research code, Research description, Research supervisor)
+
+
+1NF: 
+each cell is single valued 			dont know if the cells are single valued but we assume it is
+each column has the same type		we assume that each column has the same type
+each row has a unique value			oke because the personnel number is unique
+
+
+ Lab(PersonnelNo, Name, Date-of-birth, Lab code, Lab name, Research code, Research description, Research supervisor)
+
+
+
+2NF:
+all attributes (non key columns) depend on a key
+
+the lab name doesnt depend on the key (in this case the personnelNo) but it depends on the Lab code --> so a new table lab is created
+research description and research supervisor depends on the research code --> new table research 
+the other attributes all depend on the key personnelNo --> table person
+
+person (personnelNo, Name, Date-of-Birth, research code, lab code)
+Lab (Lab code, Lab Name)
+Research (Research code, research description, research supervisor)
+
+
+3NF:
+all keys in the table can only be determined by the key in the table and no other column
+this is already ok in the 2NF form 
+2NF = 3NF
+
+
+person (personnelNo, Name, Date-of-Birth, research code, lab code)
+Lab (Lab code, Lab Name)
+Research (Research code, research description, research supervisor)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
