@@ -1,0 +1,32 @@
+Ensemble Rest API 
+
+
+--------------------------------------------------------------------------------------------
+Question 12: Give the mapping location of the variant rs499899635 in the zebrafish?
+
+$curl 'https://rest.ensembl.org/variation/zebrafish/rs499899635?' -H 'Content-type:application/json'
+
+
+{"MAF":null,"ancestral_allele":null,"evidence":[],"minor_allele":null,"ambiguity":"Y","source":"Variants (including SNPs and indels) imported from dbSNP (mapped to GRCz11)","synonyms":[],"var_class":"SNP","name":"rs499899635","most_severe_consequence":"intergenic_variant","mappings":[{"location":"10:10138412-10138412","strand":1,"coord_system":"chromosome","assembly_name":"GRCz11","start":10138412,"seq_region_name":"10","allele_string":"T/C","end":10138412}]}
+
+
+------------------------------------------------------------------------------------------------
+Question 13: Give the first 100 bases of the genomic FASTA sequence of the Notch1 gene in the mouse.
+
+first look up the id of the gene 
+
+curl 'https://rest.ensembl.org/xrefs/symbol/mus_musculus/Notch1?' -H 'Content-type:application/json'
+[{"id":"ENSMUSG00000026923","type":"gene"}]
+
+look up the sequence of the gene
+curl 'https://rest.ensembl.org/sequence/id/ENSMUSG00000026923?start=0;end=100' -H 'Content-type:text/x-fasta'
+>ENSMUSG00000026923.15 chromosome:GRCm38:2:26516564:26516663:-1
+CTCCTGTGTGTTCAGGCACAAGCTGGAATGCAGACCCCATTGCTCTCCTTGGCTGGAGCA
+ACAACGGAGCTCTGCTTTCTGCCTGCCTCAGTCCTGGCCT
+
+
+
+
+
+
+
